@@ -1,0 +1,21 @@
+"Looking at the backtrace output, which function called syscall?"
+According to backtrace, "usertrap" called "syscall".
+
+"What is the value of p->trapframe->a7 and what does that value represent?"
+The value is 7 (SYS_exec). It represents the call to exec to replace the first user program (userinit.S) with init.c.
+
+"What was the previous mode that the CPU was in?"
+The CPU was in user mode. After the initial setup, the kernel passed control to (userinit.S) whilst "returning" to user space.
+In turn, userinit.S raised a system call to execute init.c.
+
+"Write down the assembly instruction the kernel is panicing at. Which register corresponds to the variable num?"
+The faulty instruction is "ld	s1,88(zero)".
+Here we can see, that instead of "num" variable to zero register is used. (Because num is always 0)
+
+"Why does the kernel crash? Hint: look at figure 3-3 in the text; is address 0 mapped in the kernel address space? Is that confirmed by the value in scause above?"
+The kernel crashes because it is trying to access unmapped memory, therefore getting a page fault.
+This happens because indeed, address 0 is not mapped in the kernel address space (but only addresses starting from 0x02000000).
+Looking up the exception code (scause=13) in the exception table, the exception occuring is indeed "Load page fault".
+
+"What is the name of the binary that was running when the kernel paniced? What is its process id (pid)?"
+The binary "initcode" with pid 1.

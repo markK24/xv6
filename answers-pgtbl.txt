@@ -1,0 +1,23 @@
+"Which other xv6 system call(s) could be made faster using this shared page? Explain how."
+getppid (same as getpid), uptime (expose "ticks" from trap.c in struct usyscall)
+
+"For every leaf page in the vmprint output, explain what it logically contains and what its permission bits are. Figure 3.4 in the xv6 book might be helpful, although note that the figure might have a slightly different set of pages than the init process that's being inspected here."
+ ..0: pte 0x0000000021fd9c01 pa 0x0000000087f67000
+ .. ..0: pte 0x0000000021fd9801 pa 0x0000000087f66000
+ .. .. ..0: pte 0x0000000021fda01b pa 0x0000000087f68000
+ .. .. ..1: pte 0x0000000021fd9417 pa 0x0000000087f65000
+ .. .. ..2: pte 0x0000000021fd9007 pa 0x0000000087f64000
+ .. .. ..3: pte 0x0000000021fd8c17 pa 0x0000000087f63000
+ ..255: pte 0x0000000021fda801 pa 0x0000000087f6a000
+ .. ..511: pte 0x0000000021fda401 pa 0x0000000087f69000
+ .. .. ..509: pte 0x0000000021fdcc13 pa 0x0000000087f73000
+ .. .. ..510: pte 0x0000000021fdd007 pa 0x0000000087f74000
+ .. .. ..511: pte 0x0000000020001c0b pa 0x0000000080007000
+
+ 0.0.0 - R-XU - The program's text segment
+ 0.0.1 - RW-U - The program's data segment (static and global variables)
+ 0.0.2 - RW-- - Guard page, unaccessible to user. (helps throw a segfault if the stack overflows)
+ 0.0.3 - RW-U - The program's stack
+ 255.511.511 - R-X- - trampoline.S
+ 255.511.510 - RW-- - Program's trapframe
+ 255.511.509 - R--U - Program's struct usyscall for fast syscalls

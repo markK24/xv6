@@ -1,0 +1,25 @@
+"Which registers contain arguments to functions? For example, which register holds 13 in main's call to printf?"
+a0-a8 (here, 13 is the 3rd argument, so it's in a2)
+
+"Where is the call to function f in the assembly code for main? Where is the call to g? (Hint: the compiler may inline functions.)"
+Because the value of "f(8)+1" is known at compile-time, compile optimises the call and just replaces it with 12
+
+"At what address is the function printf located?"
+printf function is linked by the linker at address 0x630
+
+"What value is in the register ra just after the jalr to printf in main?"
+0x38, the instruction after jalr
+
+"""
+unsigned int i = 0x00646c72;
+printf("H%x Wo%s", 57616, &i);
+"""
+The output is "HE110 World"
+If RISC-V was big endian, to get the same output: i = 0x726c6400
+We don't need to change 57616, since libc implementation takes care of converting integer to hex for "%x"
+
+"""
+printf("x=%d y=%d", 3);
+"""
+The value after "y=" would be "garbage" that was left in a2 register by previous function calls.
+

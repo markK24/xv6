@@ -80,6 +80,7 @@ int             pipewrite(struct pipe*, uint64, int);
 void            printf(char*, ...);
 void            panic(char*) __attribute__((noreturn));
 void            printfinit(void);
+void            backtrace(void);
 
 // proc.c
 int             cpuid(void);
@@ -127,6 +128,7 @@ void            initsleeplock(struct sleeplock*, char*);
 // string.c
 int             memcmp(const void*, const void*, uint);
 void*           memmove(void*, const void*, uint);
+void*           memset(void*, int, uint);
 void*           memset(void*, int, uint);
 char*           safestrcpy(char*, const char*, int);
 int             strlen(const char*);

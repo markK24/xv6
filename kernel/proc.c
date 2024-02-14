@@ -140,6 +140,8 @@ found:
     return 0;
   }
 
+  memset(&p->alarm_handler, 0, sizeof(p->alarm_handler));
+
   // Set up new context to start executing at forkret,
   // which returns to user space.
   memset(&p->context, 0, sizeof(p->context));

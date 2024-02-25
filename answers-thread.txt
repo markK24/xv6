@@ -1,0 +1,1 @@
+If 2 processes execute 'insert' method simultaneously, then both new entries will have the same "next" value and one might be overwritten by the other.
